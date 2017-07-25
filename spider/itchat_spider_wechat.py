@@ -1,5 +1,6 @@
 # coding=utf-8
 # 用itchat包爬去自己微信好友的信息
+# 乱码问题未解决
 __author__ = 'storm'
 import itchat
 
