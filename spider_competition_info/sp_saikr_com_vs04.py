@@ -1,9 +1,8 @@
 #! -*- coding:utf-8 -*-
 __author__ = 'storm'
 '''
-清空数据库
+不清空数据库：把第一页设置为未爬取
 可以获取页数和每页里的比赛链接
-把每一项具体信息保存：匹配有问题
 '''
 
 import requests as rq
@@ -18,10 +17,13 @@ import HTMLParser
 
 unescape = HTMLParser.HTMLParser().unescape  # 用来实现对HTML字符的转移
 
-pymongo.MongoClient().drop_database('saikr_com_vs')
+# pymongo.MongoClient().drop_database('saikr_com_vs')
 tasks = pymongo.MongoClient().saikr_com_vs.tasks  # 将队列存于数据库中
 items = pymongo.MongoClient().saikr_com_vs.items  # 存放结果
 specific_items = pymongo.MongoClient().saikr_com_vs.specific_items  # 存放每一条具体结果
+
+firstpageurl = 'https://www.saikr.com/vs?page=1'
+tasks.update({'item_url': firstpageurl}, {'$set': {'item_url': firstpageurl, "isCrawled": "no"}}, upsert=True)
 
 tasks.create_index([('url', 'hashed')])  # 建立索引，保证查询速度
 items.create_index([('item_url', 'hashed')])
@@ -108,7 +110,8 @@ def main():
                     specific_item_web).__getitem__(0)
                 # 得到发布者
                 specific_item_publisher_zz = u'<dd class="item-desc" title="(.*?)">'
-                specific_item_publisher = re.findall(specific_item_publisher_zz, specific_item_text_summary).__getitem__(0)
+                specific_item_publisher = re.findall(specific_item_publisher_zz,
+                                                     specific_item_text_summary).__getitem__(0)
                 # 得到类型
                 specific_item_type_zz = u'类型<span class="title-desc">(.*?)</span>'
                 specific_item_type = re.findall(specific_item_type_zz, specific_item_text_summary).__getitem__(0)
@@ -122,15 +125,20 @@ def main():
                 specific_item_participants_zz = u'<li class="new-event4-1-info-item clearfix">[^>]+<div class="info-content">[^>]+</div>'
                 specific_item_ParticipantsTime = re.findall(specific_item_participants_zz, specific_item_text_summary)
                 specific_item_participants_zz02 = u'<div class="info-content">[^>]+</div>'
-                specific_item_Participants = re.findall(specific_item_participants_zz02, specific_item_ParticipantsTime.__getitem__(0))
-                specific_item_time_signup = re.findall(specific_item_participants_zz02, specific_item_ParticipantsTime.__getitem__(1))
-                specific_item_time_play = re.findall(specific_item_participants_zz02, specific_item_ParticipantsTime.__getitem__(2))
+                specific_item_Participants = re.findall(specific_item_participants_zz02,
+                                                        specific_item_ParticipantsTime.__getitem__(0))
+                specific_item_time_signup = re.findall(specific_item_participants_zz02,
+                                                       specific_item_ParticipantsTime.__getitem__(1))
+                specific_item_time_play = re.findall(specific_item_participants_zz02,
+                                                     specific_item_ParticipantsTime.__getitem__(2))
                 # 得到竞赛类别
                 specific_item_category_zz = u'<div class="info-content clearfix">[^>]+<span class="fl item-prize">(.*?)</span>'
                 try:
-                    specific_item_category = re.findall(specific_item_category_zz, specific_item_text_summary).__getitem__(1)
+                    specific_item_category = re.findall(specific_item_category_zz,
+                                                        specific_item_text_summary).__getitem__(1)
                 except:
-                    specific_item_category = re.findall(specific_item_category_zz, specific_item_text_summary).__getitem__(0)
+                    specific_item_category = re.findall(specific_item_category_zz,
+                                                        specific_item_text_summary).__getitem__(0)
 
                 print specific_item_imgurl
                 # print specific_item_content
