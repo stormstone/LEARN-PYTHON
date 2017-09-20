@@ -1,8 +1,8 @@
 #! -*- coding:utf-8 -*-
 __author__ = 'storm'
 '''
-不清空数据库：把第一页设置为未爬取
-可以获取页数和每页里的比赛链接
+不清空数据库：把第一页设置为未爬取，爬取最新的内容
+每一项具体信息保存：匹配有问题，级别、参赛对象、报名时间、比赛时间等待处理
 '''
 
 import requests as rq
@@ -22,6 +22,7 @@ tasks = pymongo.MongoClient().saikr_com_vs.tasks  # 将队列存于数据库中
 items = pymongo.MongoClient().saikr_com_vs.items  # 存放结果
 specific_items = pymongo.MongoClient().saikr_com_vs.specific_items  # 存放每一条具体结果
 
+# 将第一页设置为未爬取，爬取第一页最新的数据
 firstpageurl = 'https://www.saikr.com/vs?page=1'
 tasks.update({'item_url': firstpageurl}, {'$set': {'item_url': firstpageurl, "isCrawled": "no"}}, upsert=True)
 
