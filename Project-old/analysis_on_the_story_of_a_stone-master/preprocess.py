@@ -7,7 +7,7 @@ split_mark = "#"  # Split mark for output
 filtered_chars = "『』［］[]〔〕"  # Characters to ignore
 split_chars = " …《》，、。？！；：“”‘’'\n\r-=—()（）.【】"  # Characters representing split mark
 
-input_file = open("hlm.txt", "r")  # Open input file
+input_file = open("hlm.txt", "r",encoding='gbk')  # Open input file
 
 
 def str_replace(string, str_from, str_to=""):
@@ -46,9 +46,9 @@ def preprocessing(string):
 
 
 def main():
-    output_file = open("preprocessing.txt", "w")
+    output_file = open("preprocessing.txt", "w",encoding='gbk')
 
-    string = input_file.read()
+    string = input_file.read().encode('gbk')
     output_file.write(preprocessing(string))
 
 if __name__ == "__main__":
