@@ -1,0 +1,17 @@
+# build directory
+
+build
+dist
+IPython_Dashboard.egg-info
+
+# pyc files
+*.pyc
+*.pyo
+
+# tmp files
+*.rdb
+*.coverage
+*.ipynb_checkpoints
+
+# docs
+docs/build
