@@ -13,17 +13,17 @@ print('\n')
 
 # 列表[]
 L = ['Michael', 'Bob', 'Tracy']
-L.append('storm')#添加元素到末尾
+L.append('storm')  # 添加元素到末尾
 print(L)
-L.insert(2, 'Paul')#插入元素到指定位置
+L.insert(2, 'Paul')  # 插入元素到指定位置
 print(L)
-L.pop(1)#删除指定位置元素
+L.pop(1)  # 删除指定位置元素
 print(L)
 
 # 不可更改的tuple()
 t = (0, -9, 10)
 print(t)
-t = (1,)#加一个,确保创建了一个tuple
+t = (1,)  # 加一个,确保创建了一个tuple
 print(t)
 t = (1, 2, 'a', 'b', ['A', 'B'])
 print(t)
@@ -58,7 +58,7 @@ sum = 0
 x = 1
 n = 1
 while True:
-    sum += pow(2, x-1)
+    sum += pow(2, x - 1)
     x = x + 1
     n = n + 1
     # print(sum)
@@ -66,23 +66,29 @@ while True:
         break;
 print(sum, '\n')
 
-
 import math
+
+
 def quadratic_equation(a, b, c):
-    x1 = (-b + math.sqrt(b * b - 4 * a * c))/(2 * a)
-    x2 = (-b - math.sqrt(b * b - 4 * a * c))/(2 * a)
-    return x1,x2
+    x1 = (-b + math.sqrt(b * b - 4 * a * c)) / (2 * a)
+    x2 = (-b - math.sqrt(b * b - 4 * a * c)) / (2 * a)
+    return x1, x2
+
+
 print(quadratic_equation(2, 3, 0))
 print(quadratic_equation(1, -6, 5))
 print('\n')
+
 
 def move(n, a, b, c):
     if n == 1:
         print(a, '-->', c)
         return
-    move(n-1, a, c, b)
+    move(n - 1, a, c, b)
     print(a, '-->', c)
-    move(n-1, b, a, c)
+    move(n - 1, b, a, c)
+
+
 move(3, 'A', 'B', 'C')
 print("\n")
 
@@ -94,14 +100,15 @@ def average(*args):
     for x in args:
         sum = sum + x
     return sum / len(args)
+
+
 print(average())
 print(average(1, 2))
 print(average(1, 2, 2, 3, 4))
 print("\n")
 
-
 L = ['Adam', 'Lisa', 'Bart', 'Paul']
-for index, name in zip(range(1, len(L) + 1), L):#zip(L1,L2)将两个list合并成键值对形式， range(1,y)生成递增序列
+for index, name in zip(range(1, len(L) + 1), L):  # zip(L1,L2)将两个list合并成键值对形式， range(1,y)生成递增序列
     print(index, '-', name)
 print("\n")
 
@@ -117,12 +124,15 @@ print('\n')
 print([x * (x + 1) for x in range(1, 100, 2)])
 print('\n')
 
+d = {'Adam': 95, 'Lisa': 85, 'Bart': 59}
 
-d = { 'Adam': 95, 'Lisa': 85, 'Bart': 59 }
+
 def generate_tr(name, score):
     if score < 60:
         return '<tr><td>%s</td><td style="color:red">%s</td></tr>' % (name, score)
     return '<tr><td>%s</td><td>%s</td></tr>' % (name, score)
+
+
 tds = [generate_tr(name, score) for name, score in d.items()]
 print('<table border="1">')
 print('<tr><th>Name</th><th>Score</th><tr>')
