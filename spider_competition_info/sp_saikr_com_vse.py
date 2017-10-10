@@ -127,7 +127,7 @@ def main():
                          {'$set': {'item_url': url, 'item_title': title, "isCrawled": "yes"}},
                          upsert=True)
             # 记录错误的url
-            tasks.specific_items_error({'error_url': url}, {'$set': {'error_url': url, "error_title": title}},
+            specific_items_error.update({'error_url': url}, {'$set': {'error_url': url, "error_title": title}},
                                        upsert=True)
 
 
