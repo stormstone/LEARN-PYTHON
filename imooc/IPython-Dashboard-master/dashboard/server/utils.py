@@ -8,7 +8,8 @@ import random
 from functools import wraps
 
 # third-party package
-import MySQLdb
+# import mysqldb
+import pymysql
 import pandas as pd
 from flask import make_response, jsonify
 
@@ -117,15 +118,16 @@ class SQL(object):
     """docstring for SQL"""
     def __init__(self, host, port, user, passwd, db):
         super(SQL, self).__init__()
-        self.conn = MySQLdb.connect(host=host, port=port, user=user, passwd=passwd,
+        self.conn = pymysql.connect(host=host, port=port, user=user, passwd=passwd,
                                     db=db)
 
     def get_conn(self):
-        try:
-            self.conn.stat()
-        except:
-            self.conn = MySQLdb.connect(host=host, port=port, user=user, passwd=passwd,
-                                        db=db)
+        self.conn.stat()
+        # try:
+        #     self.conn.stat()
+        # except:
+        #     self.conn = MySQLdb.connect(host=host, port=port, user=user, passwd=passwd,
+        #                                 db=db)
 
         return self.conn
 
