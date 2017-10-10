@@ -10,11 +10,7 @@ import time
 import datetime
 from multiprocessing.dummy import Pool
 import pymongo  # 使用数据库负责存取
-from urllib import unquote  # 用来对URL进行解码
-from urlparse import urlparse, urlunparse  # 对长的URL进行拆分
-import HTMLParser
-
-unescape = HTMLParser.HTMLParser().unescape  # 用来实现对HTML字符的转移
+import urllib.parse  # 用来对URL进行解码
 
 pymongo.MongoClient().drop_database('saikr_com_vs')
 tasks = pymongo.MongoClient().saikr_com_vs.tasks  # 将队列存于数据库中
@@ -30,18 +26,13 @@ if tasks.count() == 0:  # 如果队列为空，就把该页面作为初始页面
 url_split_re = re.compile('&|\+')
 
 
-def clean_url(url):
-    url = urlparse(url)
-    return url_split_re.split(urlunparse((url.scheme, url.netloc, url.path, '', '', '')))[0]
-
-
 def main():
     global count
 
     while True:
         url = tasks.find_one({"isCrawled": "no"})['url']  # 取出一个还未爬取过的url
-        print "取出的URL:"
-        print url
+        print("取出的URL:")
+        print(url)
         tasks.update({'url': url}, {'$set': {"isCrawled": "yes"}}, upsert=True)
 
         sess = rq.get(url)
@@ -51,7 +42,7 @@ def main():
 
         for u in urls:
             try:
-                u = unquote(str(u)).decode('utf-8')
+                u = urllib.parse.unquote(str(u)).decode('utf-8')
             except:
                 pass
             u = 'https://www.saikr.com' + u
@@ -76,13 +67,14 @@ def main():
                                  upsert=True)
 
                 count += 1
-                print u'%s, 爬取《%s》，URL: %s, 已经爬取%s' % (datetime.datetime.now(), item_title, item_url, count)
+                print
+                u'%s, 爬取《%s》，URL: %s, 已经爬取%s' % (datetime.datetime.now(), item_title, item_url, count)
 
 
 pool = Pool(1, main)  # 多线程爬取，4是线程数
 time.sleep(60)
 while tasks.count() > 0:
-    print "tasks.count()>0"
+    print("tasks.count()>0")
     time.sleep(60)
 
 pool.terminate()

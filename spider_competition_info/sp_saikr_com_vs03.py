@@ -12,11 +12,7 @@ import time
 import datetime
 from multiprocessing.dummy import Pool
 import pymongo  # 使用数据库负责存取
-from urllib import unquote  # 用来对URL进行解码
-from urlparse import urlparse, urlunparse  # 对长的URL进行拆分
-import HTMLParser
-
-unescape = HTMLParser.HTMLParser().unescape  # 用来实现对HTML字符的转移
+import urllib.parse  # 用来对URL进行解码
 
 pymongo.MongoClient().drop_database('saikr_com_vs')
 tasks = pymongo.MongoClient().saikr_com_vs.tasks  # 将队列存于数据库中
@@ -34,18 +30,13 @@ if tasks.count() == 0:  # 如果队列为空，就把该页面作为初始页面
 url_split_re = re.compile('&|\+')
 
 
-def clean_url(url):
-    url = urlparse(url)
-    return url_split_re.split(urlunparse((url.scheme, url.netloc, url.path, '', '', '')))[0]
-
-
 def main():
     global count
 
     while True:
         url = tasks.find_one({"isCrawled": "no"})['url']  # 取出一个还未爬取过的url
-        print "取出的URL:"
-        print url
+        print("取出的URL:")
+        print(url)
         tasks.update({'url': url}, {'$set': {"isCrawled": "yes"}}, upsert=True)
 
         sess = rq.get(url)
@@ -55,7 +46,7 @@ def main():
 
         for u in urls:
             try:
-                u = unquote(str(u)).decode('utf-8')
+                u = urllib.parse.unquote(str(u)).decode('utf-8')
             except:
                 pass
             u = 'https://www.saikr.com' + u
@@ -80,7 +71,7 @@ def main():
                                  upsert=True)
 
                 count += 1
-                # print u'%s, 爬取《%s》，URL: %s, 已经爬取%s' % (datetime.datetime.now(), item_title, item_url, count)
+                # print(u'%s, 爬取《%s》，URL: %s, 已经爬取%s' % (datetime.datetime.now(), item_title, item_url, count)
 
 
 
@@ -108,7 +99,8 @@ def main():
                     specific_item_web).__getitem__(0)
                 # 得到发布者
                 specific_item_publisher_zz = u'<dd class="item-desc" title="(.*?)">'
-                specific_item_publisher = re.findall(specific_item_publisher_zz, specific_item_text_summary).__getitem__(0)
+                specific_item_publisher = re.findall(specific_item_publisher_zz,
+                                                     specific_item_text_summary).__getitem__(0)
                 # 得到类型
                 specific_item_type_zz = u'类型<span class="title-desc">(.*?)</span>'
                 specific_item_type = re.findall(specific_item_type_zz, specific_item_text_summary).__getitem__(0)
@@ -122,28 +114,33 @@ def main():
                 specific_item_participants_zz = u'<li class="new-event4-1-info-item clearfix">[^>]+<div class="info-content">[^>]+</div>'
                 specific_item_ParticipantsTime = re.findall(specific_item_participants_zz, specific_item_text_summary)
                 specific_item_participants_zz02 = u'<div class="info-content">[^>]+</div>'
-                specific_item_Participants = re.findall(specific_item_participants_zz02, specific_item_ParticipantsTime.__getitem__(0))
-                specific_item_time_signup = re.findall(specific_item_participants_zz02, specific_item_ParticipantsTime.__getitem__(1))
-                specific_item_time_play = re.findall(specific_item_participants_zz02, specific_item_ParticipantsTime.__getitem__(2))
+                specific_item_Participants = re.findall(specific_item_participants_zz02,
+                                                        specific_item_ParticipantsTime.__getitem__(0))
+                specific_item_time_signup = re.findall(specific_item_participants_zz02,
+                                                       specific_item_ParticipantsTime.__getitem__(1))
+                specific_item_time_play = re.findall(specific_item_participants_zz02,
+                                                     specific_item_ParticipantsTime.__getitem__(2))
                 # 得到竞赛类别
                 specific_item_category_zz = u'<div class="info-content clearfix">[^>]+<span class="fl item-prize">(.*?)</span>'
                 try:
-                    specific_item_category = re.findall(specific_item_category_zz, specific_item_text_summary).__getitem__(1)
+                    specific_item_category = re.findall(specific_item_category_zz,
+                                                        specific_item_text_summary).__getitem__(1)
                 except:
-                    specific_item_category = re.findall(specific_item_category_zz, specific_item_text_summary).__getitem__(0)
+                    specific_item_category = re.findall(specific_item_category_zz,
+                                                        specific_item_text_summary).__getitem__(0)
 
-                print specific_item_imgurl
-                # print specific_item_content
-                print specific_item_publisher
-                print specific_item_type
-                print specific_item_money
-                print specific_item_rank
-                print specific_item_ParticipantsTime
-                print specific_item_Participants
-                print specific_item_time_signup
-                print specific_item_time_play
-                print specific_item_category
-                print ""
+                print(specific_item_imgurl)
+                # print(specific_item_content)
+                print(specific_item_publisher)
+                print(specific_item_type)
+                print(specific_item_money)
+                print(specific_item_rank)
+                print(specific_item_ParticipantsTime)
+                print(specific_item_Participants)
+                print(specific_item_time_signup)
+                print(specific_item_time_play)
+                print(specific_item_category)
+                print("")
                 # 如果数据库没有相应的URL，保存每一项具体的到数据库
                 if not specific_items.find_one({'sp_item_url': item_url}):
                     specific_items.update({'sp_item_url': item_url},
@@ -168,7 +165,7 @@ def main():
 pool = Pool(1, main)  # 多线程爬取，4是线程数
 time.sleep(60)
 while tasks.count() > 0:
-    print "tasks.count()>0"
+    print("tasks.count()>0")
     time.sleep(60)
 
 pool.terminate()

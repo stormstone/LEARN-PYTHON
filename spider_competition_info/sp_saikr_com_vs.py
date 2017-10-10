@@ -7,11 +7,7 @@ import time
 import datetime
 from multiprocessing.dummy import Pool
 import pymongo  # 使用数据库负责存取
-from urllib import unquote  # 用来对URL进行解码
-from urlparse import urlparse, urlunparse  # 对长的URL进行拆分
-import HTMLParser
-
-unescape = HTMLParser.HTMLParser().unescape  # 用来实现对HTML字符的转移
+import urllib.parse  # 用来对URL进行解码
 
 pymongo.MongoClient().drop_database('saikr_com_vs')
 tasks = pymongo.MongoClient().saikr_com_vs.tasks  # 将队列存于数据库中
@@ -27,11 +23,6 @@ if tasks.count() == 0:  # 如果队列为空，就把该页面作为初始页面
 url_split_re = re.compile('&|\+')
 
 
-def clean_url(url):
-    url = urlparse(url)
-    return url_split_re.split(urlunparse((url.scheme, url.netloc, url.path, '', '', '')))[0]
-
-
 def main():
     global count
     while True:
@@ -43,20 +34,20 @@ def main():
 
         urls = re.findall(u'href="(/vs\?page.*?)"', web)  # 查找所有站内链接
 
-        print "2-urls的个数:"
-        print urls.__len__()
+        print("2-urls的个数:")
+        print(urls.__len__())
 
         for u in urls:
             try:
-                u = unquote(str(u)).decode('utf-8')
+                u = urllib.parse.unquote(str(u)).decode('utf-8')
             except:
                 pass
             u = 'https://www.saikr.com' + u
             # u = clean_url(u)
             if not items.find_one({'url': u}):  # 把还没有队列过的链接加入队列
                 tasks.update({'url': u}, {'$set': {'url': u}}, upsert=True)
-                print "加入队列成功"
-                print u
+                print("加入队列成功")
+                print(u)
         text = re.findall('<li class="item clearfix">([\s\S]*?)<li class="item clearfix">', web)
         # 爬取我们所需要的信息，需要正则表达式知识来根据网页源代码而写
 
@@ -70,8 +61,8 @@ def main():
                 item_url_zz = u'href="(https://www.saikr.com/[^"]+)"'
                 item_url = re.findall(item_url_zz, text_item).__getitem__(0)
                 item_title = ""
-                print "item_url:"
-                print item_url
+                print("item_url:")
+                print(item_url)
 
                 if not items.find_one({'url': item_url}):  # 把还没有队列过的链接加入队列
                     items.update({'url': url}, {'$set': {'item_url': item_url, 'item_title': item_title}}, upsert=True)
@@ -83,7 +74,7 @@ def main():
 pool = Pool(1, main)  # 多线程爬取，4是线程数
 time.sleep(60)
 while tasks.count() > 0:
-    print "tasks.count()>0"
+    print("tasks.count()>0")
     time.sleep(60)
 
 pool.terminate()
