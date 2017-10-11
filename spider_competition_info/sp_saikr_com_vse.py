@@ -128,13 +128,13 @@ def main():
                          upsert=True)
             # 记录错误的url
             specific_items_error.update({'error_url': url}, {'$set': {'error_url': url, "error_title": title}},
-                                       upsert=True)
+                                        upsert=True)
 
 
-pool = Pool(1, main)  # 多线程爬取，4是线程数
+# 多线程爬取，4是线程数
+pool = Pool(4, main)
 time.sleep(60)
-while tasks.count() > 0:
-    print("tasks.count()>0")
+if items.find_one({"isCrawled": "no"}):
+    print("items isNoCrawled count > 0")
     time.sleep(60)
-
 pool.terminate()
