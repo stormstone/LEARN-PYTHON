@@ -1,0 +1,191 @@
+#编写第一个Python程序
+print('hello world')
+file = open('/Users/zhangmin/Desktop/helloworld.txt','w')
+file.write('hello world')
+file.close()
+
+#字符串
+'char1'+'char2'+'char3'
+'word' * 3
+str = 'My name'
+str[0]
+str[-4]
+str[1:4]
+str[3:]
+str[:3]
+str.split(' ')
+#列表
+all_in_list = [
+    1,
+    1.0,
+    'a word',
+    print(1),
+    True,
+    [1,2],
+    (1,2),
+    {'key':'value'}
+]
+print(all_in_list)
+
+#列表的增删改查
+fruit = ['pineapple','pear']
+fruit.insert(1,'grap')
+fruit.insert(-1,'apple')
+fruit = [fruit,'Apple']
+
+fruit.remove('grape')
+fruit.remove(fruit[0])
+del fruit[0:2]
+
+fruit[0] = 'Orange'
+fruit[0:0] = ['Orange']
+fruit[-1] = ['end apple']
+
+fruit.append('a')
+fruit.append([1,2,3])
+fruit.extend([1,2,3])
+
+
+#字典-记住:字典只能通过键来索引
+NASDAQ_code = {
+    'BIDU':'Baidu',
+    'SINA':'Sina',
+    'YOKU':'Youku'
+}
+NASDAQ_code['YOJKU'] = 'Yoku'
+NASDAQ_code.update({'FB':'Facebook','TSLA':'Tesla'})
+del NASDAQ_code['FB']
+#NASDAQ_code['FB']
+
+
+#逻辑判断——True & False
+1 > 2
+1 < 2 < 3
+42 !=42
+'Name' == 'name'
+'M' in 'Magic'
+
+#条件控制语句
+if 1>=2:
+    print("Hello")
+else:
+    print("world!")
+
+if 1>=2:
+    print("Hello")
+elif 3>4:
+    print("world!")
+else:
+    print('end')
+
+#while循环
+i = 1
+while i < 10:
+    print(i,' is small than 10')
+    i = i+1
+
+#列表的推导式/解析式
+#比较生成列表不同方式的速度
+a = []
+for i in range(1,11):
+    a.append(i)
+b = [i for i in range(1,11)]
+a = [i**2 for i in range(1,10)]
+c = [j+1 for j in range(1,10)]
+k = [n for n in range(1,10) if n % 2 == 0]
+z = [letter.lower() for letter in 'ABCDEFGHIJKLMN']
+
+import time
+a = []
+t0 = time.clock()
+for i in range(1,20000):
+    a.append(i)
+print(time.clock() - t0, 'seconds process time')
+
+t0 = time.clock()
+b = [i for i in range(1,20000)]
+print(time.clock() - t0, 'seconds process time')
+
+
+#练习1:求曲边矩形面积
+import math
+n = 100
+width = math.pi*2/n
+x = [i*width for i in range(0,n)]
+y = [abs(math.sin(i)) for i in x]
+sum(y)*width
+
+
+#练习2:自定义函数:求给定数组中奇数的个数
+def count(x):
+    z=0
+    for i in x:
+        if i%2==1:
+            z+=1
+    return z
+count([1,2,3,4,5,6,7])
+
+
+#文件读写
+f = open('helloworld.txt', 'r')
+content = f.read(5)
+print(content)
+print("-"*30)
+content = f.read()
+print(content)
+f.close()
+
+f = open('test.txt', 'r')
+content = f.readlines()
+print(type(content))
+
+
+#练习3:词频统计
+lyric = 'The night begin to shine, the night begin to shine'
+words = lyric.split()
+print(words)
+words.count(words[1])
+count = [1]
+print(count)
+
+import re
+path = '/Users/zhangmin/Downloads/Walden.txt'
+file = open(path,'r')
+text = file.read()   #读取文件，读成一个长字符串
+words = text.split() #将字符串打断成单词
+words1 = [word.lower() for word in words]  #将大写字母转换成小写的
+words2 = [re.sub("[,'.:;]",'',word) for word in words1]  #去掉标点符号
+words_index = set(words)  #去重复
+dic = {index:words2.count(index) for index in word_index} #统计词频
+sorted(dic.items(),key=lambda asd:asd[1],reverse=True)    #排序
+
+
+
+
+
+
+
+
+
+
+
+
+https://pypi.python.org/pypi
+http://www.lfd.uci.edu/~gohlke/pythonlibs/#tensorflow
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
