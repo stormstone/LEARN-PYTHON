@@ -27,16 +27,17 @@ width’、‘petal length’、‘petal width’；并将第5列前50、中间5
 2. 找出iris数据集中virginica种类的样本数据
 3. 找出iris数据集中Sepal.Width大于4的样本数据
 '''
-# from sklearn import datasets
-#
-# iris = datasets.load_iris()
-# x = iris.data
-# y = iris.target
-# da = DataFrame(x, columns=['sepal length', 'sepal width', 'petal length', 'petal width'])
-# da.ix[:, 'Species'] = y
-# da.ix[0:50, 'Species'] = 'setosa'
-# da.ix[50:100, 'Species'] = 'versicolor'
-# da.ix[100:150, 'Species'] = 'virginica'
+from sklearn import datasets
+
+iris = datasets.load_iris()
+x = iris.data
+y = iris.target
+da = DataFrame(x, columns=['sepal length', 'sepal width', 'petal length', 'petal width'])
+da.loc[:, 'Species'] = y
+da.loc[0:50, 'Species'] = 'setosa'
+da.loc[50:100, 'Species'] = 'versicolor'
+da.loc[100:150, 'Species'] = 'virginica'
+print(da)
 
 '''
 对平面上的100个点进行聚类，要求聚为2类，其横纵坐标都为0到99；
@@ -77,4 +78,4 @@ while True:
         break
     center0 = center0_new
     center1 = center1_new
-print(dis)
+# print(dis)
