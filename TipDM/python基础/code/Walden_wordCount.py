@@ -5,7 +5,7 @@ import re
 import time
 
 time0 = time.clock()  # 开始时间
-path = 'D:\Python\TipDM\Walden.txt'
+path = 'Walden.txt'
 file = open(path, 'r')
 text = file.read()  # 读取文件，读成一个长字符串
 words = text.split()  # 将字符串打断成单词
@@ -18,7 +18,7 @@ dic = {index: words2.count(index) for index in words_index}  # 统计词频
 res = sorted(dic.items(), key=lambda asd: asd[1], reverse=True)  # 排序 asd[1]表示按照value单词个数
 print(res)
 
-path2 = 'D:\Python\TipDM\WaldenWordCount.txt'
+path2 = 'WaldenWordCount.txt'
 filewordcount = open(path2, 'w')
 filewordcount.write(str(res))
 filewordcount.close()

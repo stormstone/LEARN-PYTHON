@@ -88,11 +88,11 @@ y(2)
 print('---------------------------------')
 
 # 文件
-f = open('D:\Python\TipDM\helloworld.txt', 'w')
+f = open('helloworld.txt', 'w')
 f.write('hello word \n jdslfjls')
 f.close
 
-f = open('D:\Python\TipDM\helloworld.txt', 'r')
+f = open('helloworld.txt', 'r')
 te = f.read()  # 读完游标已经到最后
 line = f.readlines()  # 再读已经是文档最后了，读不到内容了
 f.close

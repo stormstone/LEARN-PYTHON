@@ -1,6 +1,6 @@
 # 编写第一个Python程序
 print('hello world')
-file = open('D:\Python\TipDM\helloworld.txt', 'w')
+file = open('helloworld.txt', 'w')
 file.write('hello world')
 file.close()
 

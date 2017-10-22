@@ -5,8 +5,8 @@
 import pandas as pd
 import os
 
-os.chdir('D:\Python\TipDM\python数据挖掘')
-print(os.getcwd())
+# os.chdir('D:\Python\TipDM\python数据挖掘')
+# print(os.getcwd())
 
 data1 = pd.read_table('1.2-1data.txt', sep=',', header=0)
 print(data1)

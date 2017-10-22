@@ -29,8 +29,7 @@ def Replace(word, old_word='暴力', new_word='和平'):
 
 
 def texcreat(name, text):
-    path = 'D:\Python\TipDM\s'
-    path_fu = path + name + '.txt'
+    path_fu = name + '.txt'
     f = open(path_fu, 'w')
     f.write(text)
     f.close()
