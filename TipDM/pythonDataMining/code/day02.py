@@ -8,6 +8,6 @@ import os
 # os.chdir('D:\Python\TipDM\python数据挖掘')
 # print(os.getcwd())
 
-data1 = pd.read_table('1.2-1data.txt', sep=',', header=0)
+data1 = pd.read_table('./data/1.2-1data.txt', sep=',', header=0)
 print(data1)
-data1.to_csv('data1.csv')
+data1.to_csv('./data/data1.csv')

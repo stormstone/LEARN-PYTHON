@@ -50,7 +50,7 @@ plt.show()
 '''
 逻辑回归，分类，预测研究生是否会被录取，LogisticRegression.csv
 '''
-data = pd.read_csv('LogisticRegression.csv')
+data = pd.read_csv('./data/LogisticRegression.csv')
 data_dum = pd.get_dummies(data, columns=['rank'])
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
@@ -65,6 +65,7 @@ print(lr.score(x_test, y_test))
 决策树,分类，回归
 '''
 from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
+from sklearn.tree import export_graphviz
 from sklearn.datasets import load_iris, load_boston
 from sklearn.model_selection import cross_val_score
 
@@ -77,3 +78,7 @@ print(cross_val_score(dtc, iris.data, iris.target, cv=10))  # 计算交叉验证
 boston = load_boston()
 dtr = DecisionTreeRegressor(random_state=1)
 print(cross_val_score(dtr, boston.data, boston.target, cv=10))  # 计算交叉验证评分
+
+## titanic
+data = pd.read_csv('./data/titanic_data.csv')
+data.drop(['PassenagerId'], axis=1, inplace=True)
