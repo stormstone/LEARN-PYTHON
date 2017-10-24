@@ -78,7 +78,3 @@ print(cross_val_score(dtc, iris.data, iris.target, cv=10))  # 计算交叉验证
 boston = load_boston()
 dtr = DecisionTreeRegressor(random_state=1)
 print(cross_val_score(dtr, boston.data, boston.target, cv=10))  # 计算交叉验证评分
-
-## titanic
-data = pd.read_csv('./data/titanic_data.csv')
-data.drop(['PassenagerId'], axis=1, inplace=True)
