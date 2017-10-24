@@ -2,26 +2,32 @@
 # @Time    : 2017-10-24 16:55
 # @Author  : Storm
 # @File    : mytest.py
+from sklearn.datasets import load_iris
+from sklearn.neural_network import MLPClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import classification_report, confusion_matrix
 
-import numpy as np
-import pandas as pd
-from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
-from sklearn.tree import export_graphviz
+iris = load_iris()
+X_train, X_test, y_train, y_test = train_test_split(iris.data, iris.target)
+mlp = MLPClassifier(hidden_layer_sizes=8, max_iter=1000)
+mlp.fit(X_train, y_train)
+confusion_matrix = confusion_matrix(y_test, mlp.predict(X_test))  # 混淆矩阵
+print(confusion_matrix)
+print(classification_report(y_test, mlp.predict(X_test)))  # 分类报告
 
-data = pd.read_csv('D:\\Python\\TipDM\\pythonDataMining\\code\\data\\titanic_data.csv', encoding='utf-8')
-data.drop(['PassengerId'], axis=1, inplace=True)  # 剔除PassengerId这一列
-data.fillna(data.Age.mean(), inplace=True)  # 插值法填补缺失值
-data.loc[data['Sex'] == 'male', 'Sex'] = 1  # 性别为男替换为1
-data.loc[data['Sex'] == 'female', 'Sex'] = 0  # 性别为女替换为0
+mlp.coefs_  # 权重
+mlp.intercepts_  # 偏差
+len(mlp.coefs_)  # 2
+a = mlp.coefs_[0]  # 4*8
+b = mlp.coefs_[1]  # 8*3
+len(mlp.intercepts_)  # 2
+c = mlp.intercepts_[0]  # 8
+d = mlp.intercepts_[1]  # 3
 
-# X = data.iloc[:, 1:4]  # 取第2道第4列，1:4 顾头不顾尾
-X = data.iloc[:, 1:3]  # 为便于展示，未考虑年龄
-y = data.iloc[:, 0]
-dtc = DecisionTreeClassifier(criterion='entropy')  # 初始化决策树对象，基于信息熵
-dtc.fit(X, y)  # 训练模型
-print('输出准确率：', dtc.score(X, y))
-# 可视化决策树，导出结果是一个dot文件，需要安装Graphviz才能转换为.pdf或.png格式
-with open('D:\\Python\\TipDM\\pythonDataMining\\code\\tmp\\tree.dot', 'w') as f:
-    f = export_graphviz(dtc, feature_names=X.columns, out_file=f)
+# kNN
+from sklearn.neighbors import KNeighborsClassifier
 
-dtc.score(X, y)
+iris = load_iris()
+X_train, X_test, y_train, y_test = train_test_split(iris.data, iris.target)
+kNN = KNeighborsClassifier(n_neighbors=6)
+kNN.fit(X_train, y_train)
