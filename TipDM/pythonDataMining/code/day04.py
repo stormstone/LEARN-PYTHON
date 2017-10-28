@@ -61,6 +61,8 @@ lr = LogisticRegression()
 lr.fit(x_train, y_train)
 print(lr.score(x_test, y_test))
 
+print('y_train:',y_train)
+
 '''
 决策树,分类，回归
 '''

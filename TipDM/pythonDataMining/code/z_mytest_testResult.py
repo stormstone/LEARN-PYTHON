@@ -11,8 +11,8 @@ n = 200
 data = pd.read_csv('./data/mytest_testData.csv')
 # o=a+10*sin(f*f)+random()*(c+d)
 for i in range(n):
-    data.loc[i, '输出'] = data.loc[i, 'a'] + np.sin(
+    data.loc[i, 'o'] = data.loc[i, 'a'] + np.sin(
         data.loc[i, 'b'] + data.loc[i, 'f'] * data.loc[i, 'f']) * 10 + random.random() * (
         data.loc[i, 'c'] + data.loc[i, 'd'])
-data = data[['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', '输出']]
+data = data[['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'o']]
 data.to_csv('./data/mytest_trueResult.csv')

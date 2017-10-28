@@ -14,5 +14,5 @@ a = np.random.random((n, 1))
 for i in range(n):
     a[i] = data.loc[i, 'a'] + np.sin(data.loc[i, 'b'] + data.loc[i, 'f'] * data.loc[i, 'f']) * 10 + random.random() * (
         data.loc[i, 'c'] + data.loc[i, 'd'])
-data['输出'] = a
+data['o'] = a
 data.to_csv('./data/mytest_trainData.csv')

@@ -19,6 +19,9 @@ te_idnex = [i for i in range(0, 150) if i not in tr_idnex]
 
 x = iris.data[tr_idnex, :]
 y = iris.target[tr_idnex]
+print(x)
+print(y)
+print(type(x), type(y))
 net = MLPClassifier(hidden_layer_sizes=10, max_iter=1000).fit(x, y)
 res = net.predict(iris.data[te_idnex])
 print('预测结果:', res)

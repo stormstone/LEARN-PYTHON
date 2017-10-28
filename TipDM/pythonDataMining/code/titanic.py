@@ -19,6 +19,7 @@ X = data.iloc[:, 1:3]  # 为便于展示，未考虑年龄
 y = data.iloc[:, 0]
 dtc = DecisionTreeClassifier(criterion='entropy')  # 初始化决策树对象，基于信息熵
 dtc.fit(X, y)  # 训练模型
+
 print('输出准确率：', dtc.score(X, y))
 # 可视化决策树，导出结果是一个dot文件，需要安装Graphviz才能转换为.pdf或.png格式
 with open('./tmp/tree.dot', 'w') as f:
