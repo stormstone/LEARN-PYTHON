@@ -32,3 +32,4 @@ pl.subplot(212)
 pl.plot(time, wave_data[1], c="g")
 pl.xlabel("time (seconds)")
 pl.show()
+.
