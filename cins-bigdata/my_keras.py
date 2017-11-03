@@ -13,16 +13,19 @@ dataTrain = pd.read_csv('./data/train.csv', header=-1)  # 读取训练集
 trainX = dataTrain.iloc[:, 0:8].as_matrix()
 trainY = dataTrain.iloc[:, 8].as_matrix()
 
+trainX_denoising = dataTrain.iloc[:1999, 0:8].as_matrix()
+trainY_denoising = dataTrain.iloc[:1999, 8].as_matrix()
+
 # 划分训练集一部分为测试集
 trainX_split, testX_split, trainY_split, testY_split = \
-    train_test_split(trainX, trainY, test_size=0.33, random_state=18)
+    train_test_split(trainX_denoising, trainY_denoising, test_size=0.13, random_state=18)
 
 kerasmodle = Sequential()
 kerasmodle.add(Dense(32, input_dim=8))
-kerasmodle.add(Activation('tanh'))
+kerasmodle.add(Activation('relu'))
 kerasmodle.add(Dropout(0.5))
 kerasmodle.add(Dense(64, input_dim=32))
-kerasmodle.add(Activation('relu'))
+kerasmodle.add(Activation('tanh'))
 kerasmodle.add(Dropout(0.5))
 kerasmodle.add(Dense(1, input_dim=64))
 kerasmodle.add(Activation('linear'))

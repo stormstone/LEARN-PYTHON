@@ -14,3 +14,15 @@ trainY = dataTrain.iloc[:, 8].as_matrix()
 # 划分训练集一部分为测试集
 trainX_split, testX_split, trainY_split, testY_split = \
     train_test_split(trainX, trainY, test_size=0.33, random_state=18)
+
+# 去除噪声数据
+denoisingCount = 0
+for i in range(len(trainX)):
+    ii = dataTrain.iloc[i, 8]
+
+    if ((ii > 1) | (ii < 0)):
+        denoisingCount += 1
+    else:
+        trainX_denoising = 0
+
+print(denoisingCount)
