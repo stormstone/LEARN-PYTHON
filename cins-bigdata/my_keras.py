@@ -13,7 +13,8 @@ dataTrain = pd.read_csv('./data/train.csv', header=-1)  # 读取训练集
 trainX = dataTrain.iloc[:, 0:8].as_matrix()
 trainY = dataTrain.iloc[:, 8].as_matrix()
 
-trainX_denoising = dataTrain.iloc[:1999, 0:8].as_matrix()
+# trainX_denoising = dataTrain.iloc[:1999, 0:8].as_matrix()  #0.8053343
+trainX_denoising = dataTrain.iloc[:1999, 4:7].as_matrix()  # 0.81998176
 trainY_denoising = dataTrain.iloc[:1999, 8].as_matrix()
 
 # 划分训练集一部分为测试集
@@ -21,16 +22,28 @@ trainX_split, testX_split, trainY_split, testY_split = \
     train_test_split(trainX_denoising, trainY_denoising, test_size=0.13, random_state=18)
 
 kerasmodle = Sequential()
-kerasmodle.add(Dense(32, input_dim=8))
+# 1.[0:8]
+# kerasmodle.add(Dense(32, input_dim=8))
+# kerasmodle.add(Activation('relu'))
+# kerasmodle.add(Dropout(0.5))
+# kerasmodle.add(Dense(64, input_dim=32))
+# kerasmodle.add(Activation('tanh'))
+# kerasmodle.add(Dropout(0.5))
+# kerasmodle.add(Dense(1, input_dim=64))
+# kerasmodle.add(Activation('linear'))
+
+# 2.[4:7]
+kerasmodle.add(Dense(8, input_dim=3))
 kerasmodle.add(Activation('relu'))
 kerasmodle.add(Dropout(0.5))
-kerasmodle.add(Dense(64, input_dim=32))
+kerasmodle.add(Dense(32, input_dim=8))
 kerasmodle.add(Activation('tanh'))
 kerasmodle.add(Dropout(0.5))
-kerasmodle.add(Dense(1, input_dim=64))
+kerasmodle.add(Dense(1, input_dim=32))
 kerasmodle.add(Activation('linear'))
+
 kerasmodle.compile(loss='mean_squared_error', optimizer='sgd')
-kerasmodle.fit(trainX_split, trainY_split, epochs=200, batch_size=16)
+kerasmodle.fit(trainX_split, trainY_split, epochs=20, batch_size=16)
 res_keras = kerasmodle.predict(testX_split, batch_size=16)
 print('keras结果：', res_keras)
 

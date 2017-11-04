@@ -3,6 +3,9 @@
 # @Author  : Storm
 # @File    : a_first.py
 
+# 2017-11-03
+# 线性回归，准确率：0.866657986101
+
 import pandas as pd
 from sklearn.linear_model import LinearRegression
 

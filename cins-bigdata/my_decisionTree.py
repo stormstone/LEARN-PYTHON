@@ -13,7 +13,8 @@ dataTrain = pd.read_csv('./data/train.csv', header=-1)  # 读取训练集
 trainX = dataTrain.iloc[:, 0:8].as_matrix()
 trainY = dataTrain.iloc[:, 8].as_matrix()
 
-trainX_denoising = dataTrain.iloc[:1999, 0:8].as_matrix()
+trainX_denoising = dataTrain.iloc[:1999, 0:8].as_matrix()  # 0.70394764
+# trainX_denoising = dataTrain.iloc[:1999, 4:7].as_matrix()  # 0.64291197
 trainY_denoising = dataTrain.iloc[:1999, 8].as_matrix()
 
 # 划分训练集一部分为测试集
