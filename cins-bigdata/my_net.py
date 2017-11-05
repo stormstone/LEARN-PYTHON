@@ -21,7 +21,7 @@ trainY_denoising = dataTrain.iloc[:1999, 8].as_matrix()
 trainX_split, testX_split, trainY_split, testY_split = \
     train_test_split(trainX_denoising, trainY_denoising, test_size=0.13, random_state=18)
 
-net = MLPRegressor(hidden_layer_sizes=16, max_iter=1000).fit(trainX_split, trainY_split)
+net = MLPRegressor(hidden_layer_sizes=16, max_iter=2000).fit(trainX_split, trainY_split)
 res_net = net.predict(testX_split)
 print('神经网络预测结果:', res_net)
 
