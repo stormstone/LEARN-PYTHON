@@ -3,6 +3,10 @@
 # @Author  : Storm
 # @File    : a_second.py
 
+# 2017-11-05
+# 线性回归
+# 自己测试：0.82156093
+# 准确率：86.6741796237
 
 import pandas as pd
 from sklearn.linear_model import LinearRegression
@@ -27,4 +31,5 @@ print('===================================================')
 print('线性回归参数：', lr.coef_)
 dataResult = pd.DataFrame(res_lr)
 # print(dataResult)
-dataResult.to_csv('./data/my_answer_second.csv', header=None, index=None)
+# dataResult.to_csv('./data/my_answer_second.csv', header=None, index=None)
+dataResult.to_csv('./data/second_answer.csv', header=None, index=None)

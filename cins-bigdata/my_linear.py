@@ -18,6 +18,7 @@ trainX_denoising = dataTrain.iloc[:1999, 4:7].as_matrix() #0.82156093
 # trainX_denoising = dataTrain.iloc[:1999, 4:6].as_matrix() #0.81739968
 # trainX_denoising = dataTrain.iloc[:1999, 5:7].as_matrix() #0.77407291
 # trainX_denoising = dataTrain.iloc[:1999, [4,6]].as_matrix() #0.27108943
+# trainX_denoising = dataTrain.iloc[:1999, 5:6].as_matrix() #0.76758612
 trainY_denoising = dataTrain.iloc[:1999, 8].as_matrix()
 
 # 划分训练集一部分为测试集
