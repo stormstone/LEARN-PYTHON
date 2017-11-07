@@ -6,7 +6,7 @@
 # 2017-11-05
 # 线性回归
 # 自己测试： 0.89372179
-# 准确率：
+# 准确率：86.7108010849
 
 import pandas as pd
 from sklearn.linear_model import LinearRegression
