@@ -1,0 +1,12 @@
+在cmd中输入 pip install pymysql（要提前设置好Python环境）
+import pymysql as pm   # 导入库
+
+
+导入数据到数据库
+在SQL中可以在Navicat中连接MySQL然后导入向导（但可能数据太大的话，导入不全）
+在MySQL Command Line Client-Unicode或者MySQL Command Line Client中：
+先输入密码，
+输入
+show databases;   # 展开数据库
+use tipdm;        # 选择所要用的数据库
+source E:/7law.sql;   # 导入sql文件的路径
