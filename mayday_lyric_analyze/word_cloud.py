@@ -6,25 +6,29 @@ Created on Sat Mar 04 00:25:10 2017
 """
 
 from wordcloud import WordCloud, ImageColorGenerator
-from scipy.misc import imread
 import numpy as np
 import matplotlib.pyplot as plt
 from PIL import Image
 import random
+import pandas
 
 
 def grey_color_func(word, font_size, position, orientation, random_state=None, **kwargs):
     return "hsl(0, 0%%, %d%%)" % random.randint(60, 100)
 
 
-words = open('cloud.txt')
+words = open('cloud.txt',encoding='UTF-8')
 word_count = []
 for line in words.readlines():
     word = line.strip().split(':')
-    word_count.append((unicode(word[0]), int(word[1])))
+    word_count.append((np.unicode(word[0]), int(word[1])))
+
+# words2 = pandas.read_csv('more_than_two_words.csv', header=0)
+# word_count = []
+# for i in range(100):
+#     word_count.append([words2.iloc[i, 0], int(str(words2.iloc[i, 1]))])
 
 bg_mask = np.array(Image.open('timg.png'))
-
 wc = WordCloud(font_path='./font/msyh.ttc',  # 设置字体
                background_color="white",  # 背景颜色
                max_words=2000,  # 词云显示的最大词数
@@ -34,9 +38,8 @@ wc = WordCloud(font_path='./font/msyh.ttc',  # 设置字体
                scale=3
                )
 
-wc.fit_words(word_count)
+wc.fit_words(dict(word_count))
 image_colors = ImageColorGenerator(bg_mask)
-
 plt.figure()
 plt.imshow(wc.recolor(color_func=image_colors))
 plt.axis('off')

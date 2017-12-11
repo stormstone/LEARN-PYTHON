@@ -13,7 +13,7 @@ from collections import Counter
 all_words = [] # 保存各个词在不同歌曲出现的次数
 # 依次读取歌词文件
 for file_name in os.listdir('lyric'):
-    with open('lyric/' + file_name) as lrc:
+    with open('lyric/' + file_name,encoding='UTF-8') as lrc:
         words = re.sub(r'\[.+\]', '', lrc.read()) # 正则匹配歌词内容
         cut_words = jieba.cut(words) # Jieba中文分词，将一句歌词切割成多个词语
         all_words.extend(set(cut_words)) # 将分词结果用set过滤，同一个词语在同一首歌内仅统计一次
