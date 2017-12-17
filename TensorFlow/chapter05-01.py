@@ -2,6 +2,7 @@
 # @Time    : 2017-12-11 19:29
 # @Author  : Storm
 # @File    : chapter05-01.py
+# 在MNIST数据集上实现 激活函数、隐藏层、指数衰减学习率、正则化、滑动平均模型。
 
 import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data
@@ -17,10 +18,11 @@ BATCH_SIZE = 100  # batch的数据个数。
 LEARNING_RATE_BASE = 0.8  # 基础学习率
 LEARNING_RATE_DECAY = 0.99  # 学习率的衰减率
 REGULARIZATION_RATE = 0.0001  # 正则化项在损失函数中的系数
-TRAINING_STEPS = 5000  # 训练轮数
+TRAINING_STEPS = 50000  # 训练轮数
 MOVING_AVERAGE_DECAY = 0.99  # 滑动平均衰减率
 
 
+# 一个辅助函数，给定神经网络的输入和所有参数，计算神经网络的前向传播结果
 def inference(input_tensor, avg_class, weights1, biases1, weights2, biases2):
     # 不使用滑动平均类
     if avg_class == None:
@@ -33,6 +35,7 @@ def inference(input_tensor, avg_class, weights1, biases1, weights2, biases2):
         return tf.matmul(layer1, avg_class.average(weights2)) + avg_class.average(biases2)
 
 
+# 训练模型的过程
 def train(mnist):
     x = tf.placeholder(tf.float32, [None, INPUT_NODE], name='x-input')
     y_ = tf.placeholder(tf.float32, [None, OUTPUT_NODE], name='y-input')
