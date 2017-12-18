@@ -21,15 +21,15 @@ BOTTLENECK_TENSOR_NAME = 'pool_3/_reshape:0'
 JPEG_DATA_TENSOR_NAME = 'DecodeJpeg/contents:0'
 
 # 下载的训练好的Inception-v3模型目录
-MODEL_DIR = '../datasets/inception_dec_2015'
+MODEL_DIR = 'datasets/inception_dec_2015'
 # 下载的训练好的Inception-v3模型名称
 MODEL_FILE = 'tensorflow_inception_graph.pb'
 
 # 因为一个训练数据会被使用多次，所以可以将原始图像通过Inception-v3模型计算得到的特征向量保存在文件中
 # 下面的变量定义了这些文件的存放的地址
-CACHE_DIR = '../datasets/bottleneck'
+CACHE_DIR = 'datasets/bottleneck'
 # 图片数据
-INPUT_DATA = '../datasets/flower_photos'
+INPUT_DATA = 'datasets/flower_photos'
 
 # 验证数据的百分比
 VALIDATION_PERCENTAGE = 10
@@ -194,6 +194,7 @@ def get_test_bottlenecks(sess, image_lists, n_classes, jpeg_data_tensor, bottlen
 
 # 10.定义主函数。
 def main():
+    print('数据处理中...')
     # 获取所有图片。
     image_lists = create_image_lists(TEST_PERCENTAGE, VALIDATION_PERCENTAGE)
     n_classes = len(image_lists.keys())
@@ -230,6 +231,7 @@ def main():
         evaluation_step = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
     with tf.Session() as sess:
+        print('开始训练...')
         init = tf.global_variables_initializer()
         sess.run(init)
         # 训练过程。
@@ -240,7 +242,7 @@ def main():
             sess.run(train_step,
                      feed_dict={bottleneck_input: train_bottlenecks, ground_truth_input: train_ground_truth})
 
-            if i % 100 == 0 or i + 1 == STEPS:
+            if i % 10 == 0 or i + 1 == STEPS:
                 validation_bottlenecks, validation_ground_truth = get_random_cached_bottlenecks(
                     sess, n_classes, image_lists, BATCH, 'validation', jpeg_data_tensor, bottleneck_tensor)
                 validation_accuracy = sess.run(evaluation_step, feed_dict={
