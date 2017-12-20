@@ -6,7 +6,7 @@
 
 import tensorflow as tf
 
-# 1.创建文件列表，通过文件列表创建输入文件队列，读取文件为本章第一节创建的文件。
+# 1.创建文件列表，通过文件列表创建输入文件队列。
 files = tf.train.match_filenames_once("datasets/Records/output.tfrecords")
 filename_queue = tf.train.string_input_producer(files, shuffle=False)
 
@@ -29,6 +29,7 @@ retyped_images = tf.cast(decoded_images, tf.float32)
 labels = tf.cast(features['label'], tf.int32)
 # pixels = tf.cast(features['pixels'],tf.int32)
 images = tf.reshape(retyped_images, [784])
+
 
 # 4.将文件以100个为一组打包。
 min_after_dequeue = 10000

@@ -63,4 +63,3 @@ with tf.Session() as sess:
         print(cur_example_batch, cur_label_batch)
     coord.request_stop()
     coord.join(threads)
-
